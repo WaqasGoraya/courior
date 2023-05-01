@@ -15,6 +15,8 @@ router.get("/orders",OrderController.index);
 router.get("/add_order",OrderController.show);
 router.post("/add_order",OrderController.store);
 router.get("/invoice",OrderController.invoice);
+router.get("/order_detail/:id",OrderController.order_detail);
+router.get("/status/:id/:detail",OrderController.order_change);
 // router.post("/genrate_pdf",OrderController.genrate_pdf);
 //Category Rotes
 
