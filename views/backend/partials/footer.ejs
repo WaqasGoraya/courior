@@ -1,0 +1,145 @@
+      <footer class="main-footer">
+        <div class="footer-left">
+          <a href="#">Lahore Courier</a></a>
+        </div>
+        <div class="footer-right">
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="/admin/js/app.min.js"></script>
+  
+   <!-- JS Libraies -->
+   <script src="/admin/bundles/datatables/datatables.min.js"></script>
+   <script src="/admin/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+   <script src="/admin/bundles/jquery-ui/jquery-ui.min.js"></script>
+   <!-- Page Specific JS File -->
+   <script src="/admin/js/page/datatables.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+   <!-- JS Libraies -->
+
+  <script src="/admin/bundles/apexcharts/apexcharts.min.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="/admin/js/page/index.js"></script>
+  <!-- Template JS File -->
+  <script src="/admin/js/scripts.js"></script>
+  <!-- Custom JS File -->
+  <script src="/admin/js/custom.js"></script>
+
+
+  <script>
+    $(document).ready(function(){
+
+      $("#more_btn").on("click", function(e){
+        e.preventDefault();
+       const   html =  `
+       <div class="row align-items-center mt-3 clon_row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Order Detail</label>
+          
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="item_detail[]"
+                                value=""
+                                required
+                              />
+                            </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Qty</label>
+          
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="qty[]"
+                                value=""
+                                required
+                              />
+                            </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Price</label>
+          
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="price[]"
+                                value=""
+                                required
+                              />
+                            </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label style="visibility: hidden;">Price</label> <br>
+                            <button  class="btn btn-danger" id="remove_btn">Remove</button>
+                    </div>
+                </div>
+                </div>
+         
+         `; 
+
+         $("#box").append(html);
+
+
+      })
+
+
+      // remove btn 
+
+      $(document).on("click", "#remove_btn",function(e){
+        e.preventDefault();
+         
+        $(this).closest(".row").hide();
+
+
+      })
+
+
+
+
+      $("#add_order").validate({
+
+    rules: {
+     // no quoting necessary
+     date: "required",
+     // quoting necessary!
+     "d_name": "required",
+     "d_email": "required",
+     "d_phone": "required",
+     "d_city": "required",
+     "d_address": "required",
+     // dots need quoting, too!
+     "item_detail": "required",
+     "qty": "required",
+     "price": "required",
+     "piece": "required",
+     "length": "required",
+     "weigth": "required",
+     "heigth": "required",
+     "remarks": "required",
+   },
+      submitHandler: function(form) {
+
+     
+
+        form.submit();
+      }
+    });
+
+
+    })
+  </script>
+</body>
+
+
+ 
+
+<!-- index.html  21 Nov 2019 03:47:04 GMT -->
+</html>
