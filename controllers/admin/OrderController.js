@@ -1,5 +1,9 @@
+const orderModel = require("../../models/orderModel.js");
 const OrderModel = require("../../models/orderModel.js");
+const track = require("../../models/track.js");
 const qrcode = require('qrcode');
+const moment = require("moment");
+
 // const puppeteer = require("puppeteer");
 
 class OrderController {
@@ -7,8 +11,10 @@ class OrderController {
   static index = async (req,res)=>{
 
     try {
-        
-        res.render("backend/pages/orders/order")
+     const order = await orderModel.find({});         
+
+     
+        res.render("backend/pages/orders/order",{order})
         
     } catch (error) {
         console.log(error)
@@ -33,9 +39,11 @@ class OrderController {
 
    console.log(order_no)
     try {
+
   
-        console.log(req.body);
-        const {b_name , date , p_name ,p_email , p_phone , p_city , p_address ,  d_name , d_email , d_phone , d_city , d_address , service_type , item_detail , qty , price , piece , weigth , length , heigth,remarks} = req.body;
+               req.session.order_id = order_no;
+
+              const {b_name , date , p_name ,p_email , p_phone , p_city , p_address ,  d_name , d_email , d_phone , d_city , d_address , service_type , item_detail , qty , price , piece , weigth , length , heigth,remarks} = req.body;
 
            const orderDoc = new OrderModel({
 
@@ -83,21 +91,20 @@ class OrderController {
 
     try {
 
+      const order_id =  req.session.order_id
+      
+
     
 
-      OrderModel.findOne().sort({created_at: -1}).exec( async function(err, order) { 
-
-       
-        const qr_code = await order.order_no;
-// console.log(order)
-      qrcode.toDataURL(qr_code, (err, url) => {
-          if (err) throw err;
-            res.render('qrcode', { qrCode: url , data : order }); 
-        });
-
-       
-       });
-       
+     const order = await  OrderModel.findOne({ order_no:order_id });
+     console.log(order);
+     const qr_code = await order.order_no;
+     qrcode.toDataURL(qr_code, async (err, url) => {
+      if (err) throw err;
+       await  res.render('qrcode', { qrCode: url , data : order }); 
+    });
+     
+   
         
     } catch (error) {
         
@@ -121,6 +128,203 @@ class OrderController {
             
             console.log(error);
         }
+    }
+
+
+
+    static  order_detail = async (req,res)=>{
+
+      try {
+          
+        const order_id = await req.params.id;
+                
+        const track_status = await track.findOne({order_id:order_id}); 
+       
+      
+        const order = await orderModel.findOne({_id:order_id});
+               
+        const qr_code = await order.order_no;
+        // console.log(order)
+              qrcode.toDataURL(qr_code, (err, url) => {
+                  if (err) throw err;
+                    res.render('qrcode_detail', { qrCode: url , data : order ,track: track_status}); 
+                });
+         
+
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+
+
+
+    static order_change = async (req,res)=>{
+      try {
+
+        const id = req.params.id;
+        const  detail  = req.params.detail;
+         	 
+        console.log(detail);
+
+        
+                 let date =   moment().format('lll')
+              
+               if(detail == "Consignment_Booked"){
+
+                var newobject ={
+                  status:1,
+                  date:date,
+                }
+
+                const status = new track({
+           
+                  order_id:id,
+                  consignment_booked:newobject,
+                  status: "consignment Booked",
+                  status_date : date
+                })
+        
+                await status.save();
+    
+               }
+
+              
+                if(detail == "arrived_at_origin"){
+                         
+                   const track_data = await track.findOne({order_id:id});
+                   
+                   const new_id = track_data._id;
+                   
+                         
+                      var newobject ={
+                        status:1,
+                        date:date,
+                      }
+                      const filter = { _id: new_id };
+                      const update = { arrived_at_origin: newobject , status:"Arrived At Origin" ,  status_date : date};
+
+                      // `doc` is the document _after_ `update` was applied because of
+                      // `new: true`
+                      const doc = await track.findOneAndUpdate(filter, update, {
+                        new: true
+                      });
+                    
+                   
+                   
+                  
+                }
+                if(detail == "moved_to_destination"){
+                         
+                   const track_data = await track.findOne({order_id:id});
+                   
+                   const new_id = track_data._id;
+                   
+                         
+                      var newobject ={
+                        status:1,
+                        date:date,
+                      }
+                      const filter = { _id: new_id };
+                      const update = { moved_to_destination: newobject , status:"Moved To Destination", status_date : date};
+
+                      // `doc` is the document _after_ `update` was applied because of
+                      // `new: true`
+                      const doc = await track.findOneAndUpdate(filter, update, {
+                        new: true
+                      });
+                    
+                   
+                   
+                  
+                }
+                if(detail == "reached_at_destination"){
+                         
+                   const track_data = await track.findOne({order_id:id});
+                   
+                   const new_id = track_data._id;
+                   
+                         
+                      var newobject ={
+                        status:1,
+                        date:date,
+                      }
+                      const filter = { _id: new_id };
+                      const update = { reached_at_destination: newobject  , status:"Reached At Destination", status_date : date};
+
+                      // `doc` is the document _after_ `update` was applied because of
+                      // `new: true`
+                      const doc = await track.findOneAndUpdate(filter, update, {
+                        new: true
+                      });
+                    
+                   
+                   
+                  
+                }
+                if(detail == "out_for_delivery"){
+                         
+                   const track_data = await track.findOne({order_id:id});
+                   
+                   const new_id = track_data._id;
+                   
+                         
+                      var newobject ={
+                        status:1,
+                        date:date,
+                      }
+                      const filter = { _id: new_id };
+                      const update = { out_for_delivery: newobject , status:"Out For Delivery", status_date : date};
+
+                      // `doc` is the document _after_ `update` was applied because of
+                      // `new: true`
+                      const doc = await track.findOneAndUpdate(filter, update, {
+                        new: true
+                      });
+                    
+                   
+                   
+                  
+                }
+
+                if(detail == "delivered"){
+                         
+                
+                   const track_data = await track.findOne({order_id:id});
+                   
+                   const new_id = track_data._id;
+                   
+                         
+                      var newobject ={
+                        status:1,
+                        date:date,
+                      }
+                      const filter = { _id: new_id };
+                      const update = { delivered: newobject , status:"delivered", status_date : date};
+
+                      // `doc` is the document _after_ `update` was applied because of
+                      // `new: true`
+                      const doc = await track.findOneAndUpdate(filter, update, {
+                        new: true
+                      });
+                    
+                      console.log(doc);
+                   
+                   
+                  
+                }
+
+          
+
+       
+        res.redirect('/admin/orders');
+
+        
+      } catch (error) {
+        
+        console.log(error);
+      }
     }
 
 

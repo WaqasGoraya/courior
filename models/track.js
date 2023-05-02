@@ -1,30 +1,39 @@
 const mongoose = require("mongoose");
 
 const trackSchema = mongoose.Schema({
+
+    order_id : {type: mongoose.Schema.Types.ObjectId, ref: 'order' },
     consignment_booked:{
-    type: String, trim:true,
-    timestamp: true
+    type: Object,
+     default:false
 },
     arrived_at_origin:{
-    type: String, trim:true,
-    timestamp: true
+    type: Object, 
+    default:false
 },
     moved_to_destination:{
-    type: String, trim:true,
-    timestamp: true
+        type: Object, 
+        default:false
 },
     reached_at_destination:{
-    type: String, trim:true,
-    timestamp: true
+        type: Object, 
+        default:false
 },
     out_for_delivery:{
-    type: String, trim:true,
-    timestamp: true
+        type: Object, 
+        default:false
 },
     delivered:{
-    type: String, trim:true,
-    timestamp: true
+        type: Object, 
+        default:false
 },
+    status:{
+        type: String, 
+},
+    status_date:{
+        type: String, 
+},
+
 });
 
 const trackModel = mongoose.model('Track',trackSchema);
