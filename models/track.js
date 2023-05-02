@@ -27,6 +27,13 @@ const trackSchema = mongoose.Schema({
         type: Object, 
         default:false
 },
+    status:{
+        type: String, 
+},
+    status_date:{
+        type: String, 
+},
+
 });
 
 const trackModel = mongoose.model('Track',trackSchema);

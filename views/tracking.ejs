@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Tracking</title>
+</head>
+<body>
+    
+          <div class="container">
+            <div class="row">
+                <div class="col-md-10  mx-auto">
+                    <div class="content">
+                      <h3>Consignee Number</h3>
+                      <h3><%= data.order_id.order_no  %></h3>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                            <p>Shipper</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Am Fragrance</p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                            <p>Consignee</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><%= data.order_id.d_name%></p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                            <p>Origin /destination</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Lahore</p>
+                        </div>
+                      </div>
+
+                      <h3>SHIPMENT TRACKING SUMMARY</h3>
+                      
+                      <div class="row">
+                        <div class="col-6">
+                            <p>Current Status</p>
+                        </div>
+                        <div class="col-6">
+                            <p><%= data.status %></p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-6">
+                            <p>Status  Date</p>
+                        </div>
+                        <div class="col-6">
+                            <p><%= data.status_date %></p>
+                        </div>
+                      </div>
+
+                       
+                      <h3>Tracking History</h3>
+
+
+                      <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table table-bordered">
+                                <tr class="bg-primary">
+                                    <thead>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Location</th>
+                                    </thead>
+
+                                    <tbody>
+
+                                      <% if(data.consignment_booked){ %>  
+                                        <tr>
+                                            <td><%= data.consignment_booked.date  %></td>
+                                            <td>consignment Booked</td>
+                                            <td>LHR</td>
+                                        </tr>
+
+                                        <% } %>
+
+                                        <% if(data.arrived_at_origin){ %>  
+                                        <tr>
+                                            <td><%= data.arrived_at_origin.date  %></td>
+                                            <td>Arrived At Origin</td>
+                                            <td>LHR</td>
+                                        </tr>
+
+                                        <% } %>
+
+
+                                        <% if(data.reached_at_destination){ %>  
+                                        <tr>
+                                            <td><%= data.reached_at_destination.date %></td>
+                                            <td>Reached At Destination</td>
+                                            <td>LHR</td>
+                                        </tr>
+
+                                        <% } %>
+
+                                        <% if(data.out_for_delivery){ %>  
+                                        <tr>
+                                            <td> <%= data.out_for_delivery.date %></td>
+                                            <td>Out For Delivery</td>
+                                            <td>LHR</td>
+                                        </tr>
+
+                                        <% } %>
+
+
+                                        <% if(data.delivered){ %>  
+                                        <tr>
+                                            <td><%= data.delivered.date  %></td>
+                                            <td>Delivered</td>
+                                            <td>LHR</td>
+                                        </tr>
+
+                                        <% } %>
+                                      
+                                        
+                                      
+                                    </tbody>
+                                </tr>
+                            </table>
+                          </div>
+                      </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+          </div>
+
+
+</body>
+</html>
