@@ -7,7 +7,7 @@ class OrderController {
   static index = async (req,res)=>{
 
     try {
-
+        
         res.render("backend/pages/orders/order")
         
     } catch (error) {
