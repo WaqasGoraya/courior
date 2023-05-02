@@ -1,6 +1,20 @@
 <%- include("../partials/header.ejs")  %>
 
 <main>
+
+      <% if(message.error){ %>
+
+        <script>
+
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '<%=message.error%>',
+            })
+        </script>
+         
+
+        <% } %>
     <!--? slider Area Start-->
     <div class="slider-area ">
         <div class="slider-active">

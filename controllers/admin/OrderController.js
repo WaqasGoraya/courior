@@ -41,9 +41,11 @@ class OrderController {
 
    console.log(order_no)
     try {
+
   
-        console.log(req.body);
-        const {b_name , date , p_name ,p_email , p_phone , p_city , p_address ,  d_name , d_email , d_phone , d_city , d_address , service_type , item_detail , qty , price , piece , weigth , length , heigth,remarks} = req.body;
+               req.session.order_id = order_no;
+
+              const {b_name , date , p_name ,p_email , p_phone , p_city , p_address ,  d_name , d_email , d_phone , d_city , d_address , service_type , item_detail , qty , price , piece , weigth , length , heigth,remarks} = req.body;
 
            const orderDoc = new OrderModel({
 
@@ -91,21 +93,20 @@ class OrderController {
 
     try {
 
+      const order_id =  req.session.order_id
+      
+
     
 
-      OrderModel.findOne().sort({created_at: -1}).exec( async function(err, order) { 
-
-       
-        const qr_code = await order.order_no;
-// console.log(order)
-      qrcode.toDataURL(qr_code, (err, url) => {
-          if (err) throw err;
-            res.render('qrcode', { qrCode: url , data : order }); 
-        });
-
-       
-       });
-       
+     const order = await  OrderModel.findOne({ order_no:order_id });
+     console.log(order);
+     const qr_code = await order.order_no;
+     qrcode.toDataURL(qr_code, async (err, url) => {
+      if (err) throw err;
+       await  res.render('qrcode', { qrCode: url , data : order }); 
+    });
+     
+   
         
     } catch (error) {
         
@@ -182,7 +183,9 @@ class OrderController {
                 const status = new track({
            
                   order_id:id,
-                  consignment_booked:newobject
+                  consignment_booked:newobject,
+                  status: "consignment Booked",
+                  status_date : date
                 })
         
                 await status.save();
@@ -202,7 +205,7 @@ class OrderController {
                         date:date,
                       }
                       const filter = { _id: new_id };
-                      const update = { arrived_at_origin: newobject };
+                      const update = { arrived_at_origin: newobject , status:"Arrived At Origin" ,  status_date : date};
 
                       // `doc` is the document _after_ `update` was applied because of
                       // `new: true`
@@ -226,7 +229,7 @@ class OrderController {
                         date:date,
                       }
                       const filter = { _id: new_id };
-                      const update = { moved_to_destination: newobject };
+                      const update = { moved_to_destination: newobject , status:"Moved To Destination", status_date : date};
 
                       // `doc` is the document _after_ `update` was applied because of
                       // `new: true`
@@ -250,7 +253,7 @@ class OrderController {
                         date:date,
                       }
                       const filter = { _id: new_id };
-                      const update = { reached_at_destination: newobject };
+                      const update = { reached_at_destination: newobject  , status:"Reached At Destination", status_date : date};
 
                       // `doc` is the document _after_ `update` was applied because of
                       // `new: true`
@@ -274,7 +277,7 @@ class OrderController {
                         date:date,
                       }
                       const filter = { _id: new_id };
-                      const update = { out_for_delivery: newobject };
+                      const update = { out_for_delivery: newobject , status:"Out For Delivery", status_date : date};
 
                       // `doc` is the document _after_ `update` was applied because of
                       // `new: true`
@@ -286,8 +289,10 @@ class OrderController {
                    
                   
                 }
+
                 if(detail == "delivered"){
                          
+                
                    const track_data = await track.findOne({order_id:id});
                    
                    const new_id = track_data._id;
@@ -298,7 +303,7 @@ class OrderController {
                         date:date,
                       }
                       const filter = { _id: new_id };
-                      const update = { delivered: newobject };
+                      const update = { delivered: newobject , status:"delivered", status_date : date};
 
                       // `doc` is the document _after_ `update` was applied because of
                       // `new: true`
@@ -306,6 +311,7 @@ class OrderController {
                         new: true
                       });
                     
+                      console.log(doc);
                    
                    
                   
