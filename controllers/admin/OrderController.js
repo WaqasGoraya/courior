@@ -11,8 +11,6 @@ class OrderController {
   static index = async (req,res)=>{
 
     try {
-
-
      const order = await orderModel.find({});         
 
      
@@ -140,8 +138,8 @@ class OrderController {
           
         const order_id = await req.params.id;
                 
-            
-        
+        const track_status = await track.findOne({order_id:order_id}); 
+       
       
         const order = await orderModel.findOne({_id:order_id});
                
@@ -149,7 +147,7 @@ class OrderController {
         // console.log(order)
               qrcode.toDataURL(qr_code, (err, url) => {
                   if (err) throw err;
-                    res.render('qrcode_detail', { qrCode: url , data : order }); 
+                    res.render('qrcode_detail', { qrCode: url , data : order ,track: track_status}); 
                 });
          
 
@@ -320,7 +318,7 @@ class OrderController {
           
 
        
-        
+        res.redirect('/admin/orders');
 
         
       } catch (error) {

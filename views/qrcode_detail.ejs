@@ -1063,6 +1063,59 @@ label.arrowed,
         <a href="/admin/status/<%= data._id %>/delivered" class="btn btn-primary">delivered</a>
       </div>
    </div>
+   <% if(track) { %>
+   <div class="container">
+    <div class="col-sm-12 p-0 text-right">
+        <table class="table tab-bordered">
+            <thead>
+                <th>Consignment Booked</th>
+                <th>Arrived at Origin</th>
+                <th>Move TO destination</th>
+                <th>Reached at destination</th>
+                <th>Out for delivery</th>
+                <th>delivered</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                      
+                        <%if(track.consignment_booked){%>
+                            Success
+                            <%}else{%>
+                            Pending
+                                <%}%>
+                    </td>
+                    <td><%if(track.arrived_at_origin){%>
+                            Success
+                            <%}else{%>
+                            Pending
+                                <%}%></td>
+                    <td><%if(track.moved_to_destination){%>
+                            Success
+                            <%}else{%>
+                            Pending
+                                <%}%></td>
+                    <td><%if(track.reached_at_destination){%>
+                            Success
+                            <%}else{%>
+                            Pending
+                                <%}%></td>
+                    <td><%if(track.out_for_delivery){%>
+                            Success
+                            <%}else{%>
+                            Pending
+                                <%}%></td>
+                    <td><%if(track.delivered){%>
+                            Success
+                            <%}else{%>
+                            Pending
+                                <%}%></td>
+                </tr>
+            </tbody>
+            </table>
+    </div>
+   </div>
+   <% } %>
      <!-- loop for column  -->
 
     <% for(let i = 0 ; i<3 ; i++) { %>
