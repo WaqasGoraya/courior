@@ -21,7 +21,8 @@ include("../../partials/sidebar.ejs") %>
                  
                     <thead>
                         <th class="text-center">sr</th>
-                        <th class="text-center">Order Number</th>
+                        <th class="text-center">Order Ref</th>
+                        <th class="text-center">Order Tracking</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Detail</th>
                     </thead>
@@ -32,15 +33,19 @@ include("../../partials/sidebar.ejs") %>
                     <% order.forEach(data=>{%>
                       <tr class="text-center">
                           <td><%= sr++ %></td>
-                          <td><%= data.order_no  %></td>
-                          <td> 
-                            <% if(data.status == false){  %>
-                            <span class="badge badge-pill badge-primary">Process</span>
-                          <% }else{%>
-                            <span class="badge badge-pill badge-success">Complete</span>
-                          <%} %>
+                          <td><%= data.order_id.order  %></td>
+                          <td><%= data.order_id.order_no  %></td>
+                          <td>
+                            
+                            
+                            
+                            <span class="badge badge-pill badge-primary"><%= data.status %></span>
+                          
+
+
+
                           </td>
-                          <td><a href="/admin/order_detail/<%=data._id%>" class="btn btn-primary">Order Detail</a></td>
+                          <td><a href="/admin/order_detail/<%=data.order_id._id%>" class="btn btn-primary">Order Detail</a></td>
                       </tr>
                       <% }) %>
                   </tbody>
