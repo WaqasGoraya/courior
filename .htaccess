@@ -1,0 +1,14 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/honewiwp/lahorecouriers.com"
+PassengerBaseURI "/"
+PassengerNodejs "/home/honewiwp/nodevenv/lahorecouriers.com/12/bin/node"
+PassengerAppType node
+PassengerStartupFile index.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+SetEnv DB_NAME courier
+SetEnv DB_URL mongodb+srv://leadtest77:BZJTG7LFmC1h54ga@courier.wwcqcvm.mongodb.net/test
+SetEnv PORT 3300
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END

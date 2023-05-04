@@ -6,7 +6,7 @@ const orderSchema = mongoose.Schema({
 
   
 
-      date :{type:String,required:true,trime:true},
+     date :{type:String,required:true,trime:true},
      b_name :{type:String,required:true,trime:true},
      p_name :{type:String,required:true,trime:true},
      p_address :{type:String,required:true,trime:true},
@@ -18,9 +18,9 @@ const orderSchema = mongoose.Schema({
      d_city :{type:String,required:true,trime:true},
      d_email :{type:String,required:true,trime:true},
      d_number :{type:Number,required:true,trime:true},  
-     item_detail : {type:Object, trim:true},
      qty : {type:Object,  trim:true},
-     price : {type:Object, trim:true},
+     items_details : {type:Object, required:true, trim:true},
+     price : {type:Object,  trim:true},
      piece : {type:Number, required:true, trim:true},
      weigth : {type:Number, required:true, trim:true},
      length : {type:Number, required:true, trim:true},
@@ -28,6 +28,7 @@ const orderSchema = mongoose.Schema({
      status : {type:Boolean, required:true, trim:true},
      service_type:{type:String, required:true, trim:true},
      order_no : {type:String, required:true, trim:true},
+     order : {type:String, required:true, trim:true},
      remarks:{type:String, required:true, trim:true},
      created_at:{type:Date , default:Date.now()}  
     

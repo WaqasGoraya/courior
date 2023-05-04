@@ -2,7 +2,8 @@ const orderModel = require("../../models/orderModel.js");
 const OrderModel = require("../../models/orderModel.js");
 const track = require("../../models/track.js");
 const qrcode = require('qrcode');
-const moment = require("moment");
+var moment = require('moment-timezone');
+
 
 // const puppeteer = require("puppeteer");
 
@@ -11,10 +12,11 @@ class OrderController {
   static index = async (req,res)=>{
 
     try {
-     const order = await orderModel.find({});         
+   
+     const order = await track.find({}).sort({_id : 'desc'}).populate("order_id");         
 
      
-        res.render("backend/pages/orders/order",{order})
+        res.render("backend/pages/orders/order",{order});
         
     } catch (error) {
         console.log(error)
@@ -37,13 +39,13 @@ class OrderController {
     
    const order_no = await Math.floor(Math.random() * 1000000000)
 
-   console.log(order_no)
+   console.log(req.body)
     try {
 
   
                req.session.order_id = order_no;
 
-              const {b_name , date , p_name ,p_email , p_phone , p_city , p_address ,  d_name , d_email , d_phone , d_city , d_address , service_type , item_detail , qty , price , piece , weigth , length , heigth,remarks} = req.body;
+              const {b_name , date , p_name ,p_email , p_phone , p_city , p_address ,  d_name , d_email , d_phone , d_city , d_address , service_type , items_details , qty , price , piece , weigth ,order, length , heigth,remarks} = req.body;
 
            const orderDoc = new OrderModel({
 
@@ -59,8 +61,8 @@ class OrderController {
             d_number : d_phone ,
             d_city : d_city ,
             d_address : d_address ,
-            service_type : service_type ,
-            item_detail : item_detail ,
+            service_type : service_type,
+            items_details : items_details ,
             qty : qty ,
             price : price ,
             piece : piece ,
@@ -69,11 +71,39 @@ class OrderController {
             heigth : heigth ,
             status : 0 ,
             order_no :order_no,
-            remarks:remarks
+            remarks:remarks,
+            order:order,
               
            })
 
-       await orderDoc.save();
+      const order_data =   await orderDoc.save();
+
+     const id = order_data._id;
+             //  tracking value set 
+
+        let t_date =  moment().tz("Asia/Karachi").format('lll');
+
+              
+   
+
+         var newobject ={
+           status:1,
+           date:t_date,
+         }
+
+         const status = new track({
+    
+           order_id:id,
+           consignment_booked:newobject,
+           status: "consignment Booked",
+           status_date : t_date
+         })
+ 
+         await status.save();
+
+        
+        //  tracking value set 
+
 
          res.redirect("/admin/invoice");
           
@@ -169,7 +199,7 @@ class OrderController {
         console.log(detail);
 
         
-                 let date =   moment().format('lll')
+                 let date =    moment().tz("Asia/Karachi").format('lll');
               
                if(detail == "Consignment_Booked"){
 
@@ -301,7 +331,7 @@ class OrderController {
                         date:date,
                       }
                       const filter = { _id: new_id };
-                      const update = { delivered: newobject , status:"delivered", status_date : date};
+                      const update = { delivered: newobject , status:"Delivered", status_date : date};
 
                       // `doc` is the document _after_ `update` was applied because of
                       // `new: true`
@@ -314,11 +344,12 @@ class OrderController {
                    
                   
                 }
+                res.redirect('/admin/orders');
 
           
 
        
-        res.redirect('/admin/orders');
+        
 
         
       } catch (error) {

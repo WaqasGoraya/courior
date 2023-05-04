@@ -205,10 +205,11 @@ include("../../partials/sidebar.ejs") %>
                         <div class="form-group">
                             <label>Order Detail</label>
           
+                            
                               <input
                                 type="text"
                                 class="form-control"
-                                name="item_detail[]"
+                                name="items_details"
                                 value=""
                                 required
                               />
@@ -222,7 +223,7 @@ include("../../partials/sidebar.ejs") %>
                               <input
                                 type="text"
                                 class="form-control"
-                                name="qty[]"
+                                name="qty"
                                 value=""
                                 required
                               />
@@ -235,7 +236,7 @@ include("../../partials/sidebar.ejs") %>
                               <input
                                 type="text"
                                 class="form-control"
-                                name="price[]"
+                                name="price"
                                 value=""
                                 required
                               />
@@ -281,9 +282,14 @@ include("../../partials/sidebar.ejs") %>
                 </div>
                 <h4>Remarks</h4>
                 <div class="row mb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label for="">Remarks</label>
                         <input type="text" class="form-control" name="remarks">
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="">Order Ref</label>
+                        <input type="number" class="form-control" name="order">
                     </div>
                 </div>
 

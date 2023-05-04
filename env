@@ -1,0 +1,9 @@
+PORT = 8000
+DB_URL = 'mongodb://127.0.0.1:27017'
+DB_NAME = 'courier'
+
+# google keys 
+
+GOOGLE_CLIENT_ID="99726518857-apc6i49c5u1mvjcc9dn6mu3q01upfdgi.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="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"
+GOOGLE_CALLBACK_URL="http://localhost:8000/auth/google/callback"

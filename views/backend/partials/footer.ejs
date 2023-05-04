@@ -39,10 +39,10 @@
                         <div class="form-group">
                             <label>Order Detail</label>
           
-                              <input
+                               <input
                                 type="text"
                                 class="form-control"
-                                name="item_detail[]"
+                                name="items_details"
                                 value=""
                                 required
                               />
@@ -56,7 +56,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                name="qty[]"
+                                name="qty"
                                 value=""
                                 required
                               />
@@ -69,7 +69,7 @@
                               <input
                                 type="text"
                                 class="form-control"
-                                name="price[]"
+                                name="price"
                                 value=""
                                 required
                               />
@@ -124,6 +124,7 @@
      "weigth": "required",
      "heigth": "required",
      "remarks": "required",
+     "order": "required",
    },
       submitHandler: function(form) {
 

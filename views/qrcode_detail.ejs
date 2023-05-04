@@ -502,7 +502,10 @@ label.arrowed,
 }
 
 .widget-header-large>.widget-toolbar {
-    line-height: 48px
+    line-height: 48px;
+    display:flex;
+        width: 50%;
+    justify-content: end;
 }
 
 .widget-header-small>.widget-toolbar {
@@ -1049,22 +1052,57 @@ label.arrowed,
 .widget-body .table thead:first-child tr {
     background: #FFF
 }
+@media print {
+  .print_none{
+      display:none;
+  }
+}
     </style>
 </head>
 <body>
     
-   <div class="container">
+   <div class="container print_none">
       <div class="col-sm-12 p-0 text-right">
-        <a href="/admin/status/<%= data._id %>/Consignment_Booked" class="btn btn-danger">Consignment Booked</a>
-        <a href="/admin/status/<%= data._id %>/arrived_at_origin" class="btn btn-primary">Arrived at Origin</a>
-        <a href="/admin/status/<%= data._id %>/moved_to_destination" class="btn btn-success">Move TO destination</a>
-        <a href="/admin/status/<%= data._id %>/reached_at_destination" class="btn btn-success">Reached at destination</a>
-        <a href="/admin/status/<%= data._id %>/out_for_delivery" class="btn btn-warning">Out for delivery</a>
-        <a href="/admin/status/<%= data._id %>/delivered" class="btn btn-primary">delivered</a>
+            
+            
+            
+                        
+                <%if(track.arrived_at_origin == false){%>
+                <a href="/admin/status/<%= data._id %>/arrived_at_origin" class="btn btn-primary">Arrived at Origin</a>               
+                <%}%>
+                     
+                     
+                     
+                <%if(track.moved_to_destination == false){%>
+                            <a href="/admin/status/<%= data._id %>/moved_to_destination" class="btn btn-success">Move TO destination</a>
+                <%}%>
+                        
+                        
+                        <%if(track.reached_at_destination == false){%>
+                            <a href="/admin/status/<%= data._id %>/reached_at_destination" class="btn btn-success">Reached at destination</a>
+                            
+                            <%}%>
+                            
+                    <%if(track.out_for_delivery == false){%>
+                        <a href="/admin/status/<%= data._id %>/out_for_delivery" class="btn btn-warning">Out for delivery</a>
+                            <%}%>
+                            
+                            
+                        <%if(track.delivered == false){%>
+                        <a href="/admin/status/<%= data._id %>/delivered" class="btn btn-primary">delivered</a>
+                            
+                        <%}%>
+                                
+          
+    
+        
+        
+        
+        
       </div>
    </div>
-   <% if(track) { %>
-   <div class="container">
+   <% if(track){ %>
+   <div class="container print_none">
     <div class="col-sm-12 p-0 text-right">
         <table class="table tab-bordered">
             <thead>
@@ -1080,36 +1118,41 @@ label.arrowed,
                     <td>
                       
                         <%if(track.consignment_booked){%>
-                            Success
+                          <span class="badge badge-pill badge-primary">Success</span>
                             <%}else{%>
-                            Pending
+                             <span class="badge badge-pill badge-danger">Pending</span>
                                 <%}%>
                     </td>
                     <td><%if(track.arrived_at_origin){%>
-                            Success
+                            <span class="badge badge-pill badge-primary">Success</span>
                             <%}else{%>
-                            Pending
-                                <%}%></td>
+                             <span class="badge badge-pill badge-danger">Pending</span>
+                                <%}%>
+                                </td>
                     <td><%if(track.moved_to_destination){%>
-                            Success
+                            <span class="badge badge-pill badge-primary">Success</span>
                             <%}else{%>
-                            Pending
-                                <%}%></td>
+                             <span class="badge badge-pill badge-danger">Pending</span>
+                                <%}%>
+                                </td>
                     <td><%if(track.reached_at_destination){%>
-                            Success
+                            <span class="badge badge-pill badge-primary">Success</span>
                             <%}else{%>
-                            Pending
-                                <%}%></td>
+                             <span class="badge badge-pill badge-danger">Pending</span>
+                                <%}%>
+                                </td>
                     <td><%if(track.out_for_delivery){%>
-                            Success
+                        <span class="badge badge-pill badge-primary">Success</span>
                             <%}else{%>
-                            Pending
-                                <%}%></td>
+                             <span class="badge badge-pill badge-danger">Pending</span>
+                                <%}%>
+                                </td>
                     <td><%if(track.delivered){%>
-                            Success
+                            <span class="badge badge-pill badge-primary">Success</span>
                             <%}else{%>
-                            Pending
-                                <%}%></td>
+                             <span class="badge badge-pill badge-danger">Pending</span>
+                                <%}%>
+                                </td>
                 </tr>
             </tbody>
             </table>
@@ -1117,6 +1160,9 @@ label.arrowed,
    </div>
    <% } %>
      <!-- loop for column  -->
+
+
+
 
     <% for(let i = 0 ; i<3 ; i++) { %>
 
@@ -1137,7 +1183,7 @@ label.arrowed,
 						<span class="red"># <%= data.order_no %></span>
 
 						<br>
-						<span class="invoice-info-label">Date:</span>
+						<span class="invoice-info-label ml-3">Order Date:</span>
 						<span class="blue"> <%= data.date %></span>
 					</div>
 
@@ -1165,7 +1211,7 @@ label.arrowed,
 										</li>
                                         <hr>
 										<li>
-										<b>	Customer Ref : </b>  <%= data.order_no  %>
+										<b>	Order Ref : </b>  <%= data.order  %>
 										</li>
 
 										<li>
@@ -1214,30 +1260,14 @@ label.arrowed,
                                         <div class="col-md-6 border">
                                             <ul class="list-unstyled  spaced">
                                                 <li>
-                                                   <b> Destination </b>
+                                                   <b>  ORIGIN / DESTINATION  </b>
                                                 </li>
                                                 </ul>
                                         </div>
                                         <div class="col-md-6 border">
                                             <ul class="list-unstyled  spaced">
                                                 <li>
-                                                    Lahore
-                                                </li>
-                                                </ul>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 border">
-                                            <ul class="list-unstyled  spaced">
-                                                <li>
-                                                   <b> Origin </b>
-                                                </li>
-                                                </ul>
-                                        </div>
-                                        <div class="col-md-6 border">
-                                            <ul class="list-unstyled  spaced">
-                                                <li>
-                                              Lahore
+                                                    LHE / LHE
                                                 </li>
                                                 </ul>
                                         </div>
@@ -1246,14 +1276,30 @@ label.arrowed,
                                         <div class="col-md-6 border">
                                             <ul class="list-unstyled  spaced">
                                                 <li>
-                                                   <b> Service </b>
+                                                   <b> COD AMOUNT</b>
                                                 </li>
                                                 </ul>
                                         </div>
                                         <div class="col-md-6 border">
                                             <ul class="list-unstyled  spaced">
                                                 <li>
-                                                   NON-COD
+                                              0
+                                                </li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> SERVICE </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   OVERNIGTH
                                                 </li>
                                                 </ul>
                                         </div>
@@ -1288,7 +1334,7 @@ label.arrowed,
                                 <hr>
                                 <div class="col-sm-12 border">
                                     <b>Order Details</b>
-                                    <p><%= data.item_detail  %></p>
+                                    <p><%= data.items_details %></p>
                                      
                                 </div>
     
@@ -1316,390 +1362,396 @@ label.arrowed,
 
 
     <div class="container bootdey">
-        <div class="row">
-                <div class="col-sm-12 mb-3">
-                
-                    <div class="widget-box">
-                        <div class="widget-header widget-header-large">
-                            <h3 class="widget-title grey lighter">
-                                <img src="/assets/img/logo/logo.png" alt="" class="img-fluid w-25" >
-                            </h3>
+<div class="row">
+		<div class="col-sm-12 mb-3">
         
-                            <div class="widget-toolbar no-border invoice-info">
-                                <span class="invoice-info-label">Tracking ID :</span>
-                                <span class="red"># <%= data.order_no %></span>
-        
-                                <br>
-                                <span class="invoice-info-label">Date:</span>
-                                <span class="blue"> <%= data.date %></span>
-                            </div>
-        
-                            
-                        </div>
-        
-                        <div class="widget-body">
-                            <div class="widget-main padding-24">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="row">
-                                            <div class="col-xs-11 label label-lg label-info">
-                                                <b>ACCOUNT COPY</b>
-                                            </div>
-                                        </div>
-        
-                                        <div>
-                                            <ul class="list-unstyled spaced">
+			<div class="widget-box">
+				<div class="widget-header widget-header-large">
+					<h3 class="widget-title grey lighter">
+                        <img src="/assets/img/logo/logo.png" alt="" class="img-fluid w-25" >
+					</h3>
+
+					<div class="widget-toolbar no-border invoice-info">
+						<span class="invoice-info-label">Tracking ID :</span>
+						<span class="red"># <%= data.order_no %></span>
+
+						<br>
+						<span class="invoice-info-label ml-3">Order Date:</span>
+						<span class="blue"> <%= data.date %></span>
+					</div>
+
+					
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-24">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="row">
+									<div class="col-xs-11 label label-lg label-info">
+										<b>ACCOUNT COPY</b>
+									</div>
+								</div>
+
+								<div>
+									<ul class="list-unstyled spaced">
+										<li>
+									 <b>Shipper : </b>  <%= data.p_name + " " + data.p_number%>
+										</li>
+
+										<li>
+										<b>	Address : </b> <%= data.p_address %>
+										</li>
+                                        <hr>
+										<li>
+										<b>	Order Ref : </b>  <%= data.order  %>
+										</li>
+
+										<li>
+										 <b>  Consignee: </b> 
+                                             <%= data.d_name + " " + data.d_number %>
+										</li>
+										<li>
+                                            <b> Address : </b> 
+                                             <%= data.d_address %>
+										</li>
+
+									
+									</ul>
+								</div>
+							</div><!-- /.col -->
+
+                                 <div class="col-sm-3 border text-center">
+                                    <img src="<%= qrCode %>" alt="QR Code">
+                                    <ul class="list-unstyled spaced">
+										<li>
+									      <b> Return Address : </b> <%= data.p_address %>
+										</li>
+                                        </ul>
+                                 </div>
+
+							<div class="col-sm-5">
+								
+									
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
                                                 <li>
-                                             <b>Shipper : </b>  <%= data.p_name + " " + data.p_number%>
-                                                </li>
-        
-                                                <li>
-                                                <b>	Address : </b> <%= data.p_address %>
-                                                </li>
-                                                <hr>
-                                                <li>
-                                                <b>	Customer Ref : </b>  <%= data.order_no  %>
-                                                </li>
-        
-                                                <li>
-                                                 <b>  Consignee: </b> 
-                                                     <%= data.d_name + " " + data.d_number %>
-                                                </li>
-                                                <li>
-                                                    <b> Address : </b> 
-                                                     <%= data.d_address %>
-                                                </li>
-        
-                                            
-                                            </ul>
-                                        </div>
-                                    </div><!-- /.col -->
-        
-                                         <div class="col-sm-3 border text-center">
-                                            <img src="<%= qrCode %>" alt="QR Code">
-                                            <ul class="list-unstyled spaced">
-                                                <li>
-                                                  <b> Return Address : </b> <%= data.p_address %>
+                                                 <b> Pieces : </b> <%= data.piece %>
                                                 </li>
                                                 </ul>
-                                         </div>
-        
-                                    <div class="col-sm-5">
-                                        
-                                            
-                                            <div class="row">
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                         <b> Pieces : </b> <%= data.piece %>
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                           <b> Weigth : </b>  1
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                           <b> Destination </b>
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                            Lahore
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                           <b> Origin </b>
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                      Lahore
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                           <b> Service </b>
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                           NON-COD
-                                                        </li>
-                                                        </ul>
-                                                </div>
-        
-                                            
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                           <b> Remark </b>
-                                                        </li>
-                                                        </ul>
-                                                </div>
-                                                <div class="col-md-6 border">
-                                                    <ul class="list-unstyled  spaced">
-                                                        <li>
-                                                            <%= data.remarks  %>
-                                                        </li>
-                                                        </ul>
-                                                </div>
-        
-                                            
-                                            </div>
-                                        
-                                        
-                                        
                                         </div>
-        
-        
-        
-                                        <hr>
-                                        <div class="col-sm-12 border">
-                                            <b>Order Details</b>
-                                            <p><%= data.item_detail  %></p>
-                                             
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> Weigth : </b>  1
+                                                </li>
+                                                </ul>
                                         </div>
-            
-                                      
-        
-        
-        
-                                        <!-- inner text  -->
                                     </div>
-                                </div><!-- /.row -->
-        
-                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-        
-            
-        
-            </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b>  ORIGIN / DESTINATION  </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                    LHE / LHE
+                                                </li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> COD AMOUNT</b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                              0
+                                                </li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> SERVICE </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   OVERNIGTH
+                                                </li>
+                                                </ul>
+                                        </div>
+
+                                    
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> Remark </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                    <%= data.remarks  %>
+                                                </li>
+                                                </ul>
+                                        </div>
+
+                                    
+                                    </div>
+								
+								
+								
+								</div>
+
+
+
+                                <hr>
+                                <div class="col-sm-12 border">
+                                    <b>Order Details</b>
+                                    <p><%= data.items_details %></p>
+                                     
+                                </div>
+    
+                              
+
+
+
+                                <!-- inner text  -->
+							</div>
+						</div><!-- /.row -->
+
+					
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+    
+
+	</div>
+</div>
+
 
     <% }else if(i == 2){%>
 
 
         <div class="container bootdey">
-            <div class="row">
-                    <div class="col-sm-12 mb-3">
-                    
-                        <div class="widget-box">
-                            <div class="widget-header widget-header-large">
-                                <h3 class="widget-title grey lighter">
-                                    <img src="/assets/img/logo/logo.png" alt="" class="img-fluid w-25" >
-                                </h3>
-            
-                                <div class="widget-toolbar no-border invoice-info">
-                                    <span class="invoice-info-label">Tracking ID :</span>
-                                    <span class="red"># <%= data.order_no %></span>
-            
-                                    <br>
-                                    <span class="invoice-info-label">Date:</span>
-                                    <span class="blue"> <%= data.date %></span>
-                                </div>
-            
-                                
-                            </div>
-            
-                            <div class="widget-body">
-                                <div class="widget-main padding-24">
+<div class="row">
+		<div class="col-sm-12 mb-3">
+        
+			<div class="widget-box">
+				<div class="widget-header widget-header-large">
+					<h3 class="widget-title grey lighter">
+                        <img src="/assets/img/logo/logo.png" alt="" class="img-fluid w-25" >
+					</h3>
+
+					<div class="widget-toolbar no-border invoice-info">
+						<span class="invoice-info-label">Tracking ID :</span>
+						<span class="red"># <%= data.order_no %></span>
+
+						<br>
+						<span class="invoice-info-label ml-3">Order Date:</span>
+						<span class="blue"> <%= data.date %></span>
+					</div>
+
+					
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-24">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="row">
+									<div class="col-xs-11 label label-lg label-info">
+										<b>SHIPPER COPY</b>
+									</div>
+								</div>
+
+								<div>
+									<ul class="list-unstyled spaced">
+										<li>
+									 <b>Shipper : </b>  <%= data.p_name + " " + data.p_number%>
+										</li>
+
+										<li>
+										<b>	Address : </b> <%= data.p_address %>
+										</li>
+                                        <hr>
+										<li>
+										<b>	Order Ref : </b>  <%= data.order  %>
+										</li>
+
+										<li>
+										 <b>  Consignee: </b> 
+                                             <%= data.d_name + " " + data.d_number %>
+										</li>
+										<li>
+                                            <b> Address : </b> 
+                                             <%= data.d_address %>
+										</li>
+
+									
+									</ul>
+								</div>
+							</div><!-- /.col -->
+
+                                 <div class="col-sm-3 border text-center">
+                                    <img src="<%= qrCode %>" alt="QR Code">
+                                    <ul class="list-unstyled spaced">
+										<li>
+									      <b> Return Address : </b> <%= data.p_address %>
+										</li>
+                                        </ul>
+                                 </div>
+
+							<div class="col-sm-5">
+								
+									
                                     <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="row">
-                                                <div class="col-xs-11 label label-lg label-info">
-                                                    <b>SHIPPER COPY</b>
-                                                </div>
-                                            </div>
-            
-                                            <div>
-                                                <ul class="list-unstyled spaced">
-                                                    <li>
-                                                 <b>Shipper : </b>  <%= data.p_name + " " + data.p_number%>
-                                                    </li>
-            
-                                                    <li>
-                                                    <b>	Address : </b> <%= data.p_address %>
-                                                    </li>
-                                                    <hr>
-                                                    <li>
-                                                    <b>	Customer Ref : </b>  <%= data.order_no  %>
-                                                    </li>
-            
-                                                    <li>
-                                                     <b>  Consignee: </b> 
-                                                         <%= data.d_name + " " + data.d_number %>
-                                                    </li>
-                                                    <li>
-                                                        <b> Address : </b> 
-                                                         <%= data.d_address %>
-                                                    </li>
-            
-                                                
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                 <b> Pieces : </b> <%= data.piece %>
+                                                </li>
                                                 </ul>
-                                            </div>
-                                        </div><!-- /.col -->
-            
-                                             <div class="col-sm-3 border text-center">
-                                                <img src="<%= qrCode %>" alt="QR Code">
-                                                <ul class="list-unstyled spaced">
-                                                    <li>
-                                                      <b> Return Address : </b> <%= data.p_address %>
-                                                    </li>
-                                                    </ul>
-                                             </div>
-            
-                                        <div class="col-sm-5">
-                                            
-                                                
-                                                <div class="row">
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                             <b> Pieces : </b> <%= data.piece %>
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                               <b> Weigth : </b>  1
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                               <b> Destination </b>
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                                Lahore
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                               <b> Origin </b>
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                          Lahore
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                               <b> Service </b>
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                               NON-COD
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-            
-                                                
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                               <b> Remark </b>
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-6 border">
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                                <%= data.remarks  %>
-                                                            </li>
-                                                            </ul>
-                                                    </div>
-            
-                                                
-                                                </div>
-                                            
-                                            
-                                            
-                                            </div>
-            
-            
-            
-                                            <hr>
-                                            <div class="col-sm-12 border">
-                                                <b>Order Details</b>
-                                                <p><%= data.item_detail  %></p>
-                                                 
-                                            </div>
-                
-                                          
-            
-            
-            
-                                            <!-- inner text  -->
                                         </div>
-                                    </div><!-- /.row -->
-            
-                                
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> Weigth : </b>  1
+                                                </li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b>  ORIGIN / DESTINATION  </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                    LHE / LHE
+                                                </li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> COD AMOUNT</b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                              0
+                                                </li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> SERVICE </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   OVERNIGTH
+                                                </li>
+                                                </ul>
+                                        </div>
+
+                                    
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                   <b> Remark </b>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <ul class="list-unstyled  spaced">
+                                                <li>
+                                                    <%= data.remarks  %>
+                                                </li>
+                                                </ul>
+                                        </div>
+
+                                    
+                                    </div>
+								
+								
+								
+								</div>
+
+
+
+                                <hr>
+                                <div class="col-sm-12 border">
+                                    <b>Order Details</b>
+                                    <p><%= data.items_details %></p>
+                                     
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-            
-            
-                
-            
-                </div>
+    
+                              
+
+
+
+                                <!-- inner text  -->
+							</div>
+						</div><!-- /.row -->
+
+					
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+    
+
+	</div>
+</div>
+
 
         <% } %>
 
 
 <% } %>
+
+
  <!-- loop for colunm end  -->
 </body>
 </html>
